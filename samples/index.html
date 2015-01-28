@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>open-dropdown sample</title>
+
+    <link rel="stylesheet" href="../dist/angular-open-dropdown.css"/>
+
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../dist/angular-open-dropdown.js"></script>
+    <script src="openDropdownSample.js"></script>
+
+</head>
+<body ng-app="openDropdownSample">
+
+    <!-- =================================================================== -->
+
+    <h1>Basic usage:</h1>
+
+    <div>
+        <button id="basic-button">Click on this button to open dropdown</button>
+        <open-dropdown for="basic-button" toggle-click="true">
+            <h1>Hello World!</h1>
+            <span style="color: red">Here can be any content</span>
+        </open-dropdown>
+    </div>
+
+    <!-- =================================================================== -->
+
+    <h1>Control isOpened state of the dropdown manually:</h1>
+
+    <div>
+        <button id="basic-button2">Click on this button to open dropdown</button>
+        <open-dropdown for="basic-button2" toggle-click="true" is-opened="isOpened">
+            <h1>Hello World!</h1>
+            <span style="color: red">Here can be any content</span>
+        </open-dropdown>
+    </div>
+
+    <p style="margin-left: 40px">Is dropdown opened now? : {{ isOpened }}</p><br/>
+    <button ng-disabled="isOpened" ng-click="isOpened = true">Click to open dropdown</button>
+
+    <!-- =================================================================== -->
+
+    <h1>How to use it in the ng-repeat:</h1>
+
+    <div ng-repeat="fruit in ['apple', 'orange', 'peach']">
+        <button ng-attr-id="basic-button-{{ $index }}">Click on this button to open dropdown</button>
+        <open-dropdown for="basic-button-{{ $index }}">
+            <h1>{{ fruit }}</h1>
+        </open-dropdown>
+    </div>
+
+    <!-- =================================================================== -->
+
+</body>
+</html>

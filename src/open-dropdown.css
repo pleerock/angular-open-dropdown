@@ -1,0 +1,40 @@
+/* open-dropdown directive styles in conclude with select-items */
+/* todo: move to select-dropdown and select-tags */
+
+.open-dropdown .select-items {
+    width: 100%;
+}
+
+.open-dropdown .select-items ul li {
+    padding: 0;
+}
+
+.open-dropdown .select-items .select-list-item {
+    padding: 5px;
+}
+
+.open-dropdown li.no-selection.active{
+    background-color: #f5f5f5;
+}
+
+.open-dropdown .select-items ul .select-list-item.active,
+.open-dropdown .select-items ul .select-list-item.select-items-group.select-all-enabled:hover,
+.open-dropdown .select-items ul li.select-all.can-be-active:hover {
+    background-color: #f5f5f5;
+}
+
+.open-dropdown .select-items .select-list-item.selected {
+    background-color: #0095cc;
+    color: #FFF;
+}
+.open-dropdown .select-items .select-list-item.active.selected {
+    background-color: #37B3E0;
+}
+
+.open-dropdown .select-items .select-list-item.select-items-group.all-selected {
+    background-color: #1975cc;
+    color: #FFF;
+}
+.open-dropdown .select-items .select-list-item.select-items-group.all-selected.select-all-enabled:hover {
+    background-color: #37B3E0;
+}
