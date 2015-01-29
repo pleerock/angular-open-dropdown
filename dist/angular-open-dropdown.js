@@ -13,13 +13,6 @@
      */
     angular.module('openDropdown', []);
 
-})();
-/**
- * @author Umed Khudoiberdiev <info@zar.tj>
- */
-(function() {
-    'use strict';
-
     /**
      * @ngdoc directive
      * @name openDropdown
@@ -38,30 +31,14 @@
             restrict: 'E',
             link: function (scope, element, attrs) {
 
-                // ---------------------------------------------------------------------
-                // Setup default dropdown style
-                // ---------------------------------------------------------------------
+                setupDefaultDropdownStyles(element[0]);
 
-                element[0].style.display    = 'none';
-                element[0].style.position   = 'absolute';
-
-                if (!element[0].style.zIndex)       element[0].style.zIndex     = 1;
-                if (!element[0].style.background)   element[0].style.background = '#FFF';
-                if (!element[0].style.border)       element[0].style.border     = '1px solid #cccccc';
-
-                // ---------------------------------------------------------------------
-                // Checks and local variables
-                // ---------------------------------------------------------------------
-
+                // check for required options to be set
                 if (!attrs.for)
                     throw new Error('You must specify for what open dropdown component is attached (container id).');
 
                 var toggleClick = (attrs.toggleClick === true || attrs.toggleClick === 'true');
                 var attachedContainer;
-
-                // ---------------------------------------------------------------------
-                // Initialization
-                // ---------------------------------------------------------------------
 
                 // lets give a time for angular to initialize attached container id, then find this element
                 $timeout(function() {
@@ -81,6 +58,7 @@
 
                 if (attrs.isOpened) {
                     scope.$watch(attrs.isOpened, function(opened) {
+                        if (isDisabled()) return;
                         element[0].style.display = (opened === true) ? 'block' : 'none';
                     });
                 }
@@ -90,11 +68,22 @@
                 // ---------------------------------------------------------------------
 
                 /**
+                 * Checks if open dropdown is disabled or not.
+                 *
+                 * @returns {boolean}
+                 */
+                var isDisabled = function() {
+                    return attrs.disabled ? $parse(attrs.disabled)(scope) : false;
+                };
+
+                /**
                  * Sets the opened status of the dropdown.
                  *
                  * @param {boolean} is
                  */
                 var setIsOpened = function(is) {
+                    if (isDisabled()) return;
+
                     if (attrs.isOpened) {
                         $parse(attrs.isOpened).assign(scope, is);
                         scope.$digest();
@@ -159,5 +148,18 @@
         };
     }
 
+    /**
+     * Sets the styles of the dropdown that should be on the dropdown by deafult.
+     *
+     * @param {HtmlElement} element
+     */
+    function setupDefaultDropdownStyles(element) {
+        element.style.display    = 'none';
+        element.style.position   = 'absolute';
+
+        if (!element.style.zIndex)     element.style.zIndex     = 1;
+        if (!element.style.background) element.style.background = '#FFF';
+        if (!element.style.border)     element.style.border     = '1px solid #cccccc';
+    }
 
 })();
