@@ -19,6 +19,14 @@
      * @restrict E
      * @description
      * This directive opens a dropdown on the click on some element.
+     *
+     * @param {string} for Id of the element that which dropdown will be opened when clicked on
+     * @param {string} toggleClick If set to true then dropdown's open/close state will toggle - if dropdown is
+     *                             opened then it will be close, if it is closed then it will be open
+     * @param {boolean} isOpened Indicates if dropdown is opened or not. Component is watching this expression and
+     *                           closes/opens dropdown when it changes
+     * @param {boolean} fitWidthToAttachedContainer Indicates if dropdown width should fit attached container width
+     * @param {boolean} hide If set to true then dropdown will be hidden (instead of destroy)
      */
     angular.module('openDropdown').directive('openDropdown', openDropdown);
 
@@ -46,7 +54,13 @@
                     if (!attachedContainer)
                         throw new Error('Cant find a container to attach to.');
 
-                    element[0].style.width = (attachedContainer.offsetWidth - 2) + 'px';
+                    // fit dropdown width to the width of the container if this is set by options
+                    if (attrs.fitWidthToAttachedContainer &&
+                        attrs.fitWidthToAttachedContainer !== 'false' &&
+                        attrs.fitWidthToAttachedContainer !== '1')
+                        element[0].style.width = (attachedContainer.offsetWidth - 2) + 'px';
+
+                    // attach listeners
                     attachedContainer.addEventListener('keydown', onAttachedContainerKeyDown);
                     attachedContainer.addEventListener('click', onAttachedContainerClick);
                     document.addEventListener('mousedown', onDocumentMouseDown);
@@ -59,13 +73,22 @@
                 if (attrs.isOpened) {
                     scope.$watch(attrs.isOpened, function(opened) {
                         if (isDisabled()) return;
-                        element[0].style.display = (opened === true) ? 'block' : 'none';
+                        closeOpenDropdown(opened);
                     });
                 }
 
                 // ---------------------------------------------------------------------
                 // Local functions
                 // ---------------------------------------------------------------------
+
+                /**
+                 * Closes (or opens) a dropdown.
+                 *
+                 * @param {boolean} opened
+                 */
+                var closeOpenDropdown = function(opened) {
+                    element[0].style.display = (opened === true) ? 'block' : 'none';
+                };
 
                 /**
                  * Checks if open dropdown is disabled or not.
@@ -88,7 +111,7 @@
                         $parse(attrs.isOpened).assign(scope, is);
                         scope.$digest();
                     } else {
-                        element[0].style.display = is ? 'block' : 'none';
+                        closeOpenDropdown(is);
                     }
                 };
 
