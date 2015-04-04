@@ -4,6 +4,9 @@
 .open-dropdown .select-items {
     width: 100%;
 }
+.open-dropdown:focus{
+    outline: none;
+}
 
 .open-dropdown .select-items ul li {
     padding: 0;

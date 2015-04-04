@@ -54,12 +54,6 @@
                     if (!attachedContainer)
                         throw new Error('Cant find a container to attach to.');
 
-                    // fit dropdown width to the width of the container if this is set by options
-                    if (attrs.fitWidthToAttachedContainer &&
-                        attrs.fitWidthToAttachedContainer !== 'false' &&
-                        attrs.fitWidthToAttachedContainer !== '1')
-                        element[0].style.width = (attachedContainer.offsetWidth - 2) + 'px';
-
                     // attach listeners
                     attachedContainer.addEventListener('keydown', onAttachedContainerKeyDown);
                     attachedContainer.addEventListener('click', onAttachedContainerClick);
@@ -88,6 +82,14 @@
                  */
                 var closeOpenDropdown = function(opened) {
                     element[0].style.display = (opened === true) ? 'block' : 'none';
+
+                    // fit dropdown width to the width of the container if this is set by options
+                    if (attachedContainer &&
+                        opened === true &&
+                        attrs.fitWidthToAttachedContainer &&
+                        attrs.fitWidthToAttachedContainer !== 'false' &&
+                        attrs.fitWidthToAttachedContainer !== '0')
+                        element[0].style.width = (attachedContainer.offsetWidth - 2) + 'px';
                 };
 
                 /**
