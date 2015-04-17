@@ -120,7 +120,7 @@
                 /**
                  * Closes dropdown if user clicks outside of this directive.
                  */
-                var onDocumentMouseDown = function() {
+                var onDocumentMouseDown = function(event) {
                     if (element[0].contains(event.target) || attachedContainer.contains(event.target)) return;
                     setIsOpened(false);
                 };
