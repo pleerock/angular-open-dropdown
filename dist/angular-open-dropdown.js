@@ -33,24 +33,25 @@
     /**
      * @ngInject
      */
-    function openDropdown($parse, $timeout) {
+    function openDropdown($parse) {
         return {
             replace: true,
             restrict: 'E',
             link: function (scope, element, attrs) {
 
-                setupDefaultDropdownStyles(element[0]);
-
-                // check for required options to be set
-                if (!attrs.for)
-                    throw new Error('You must specify for what open dropdown component is attached (container id).');
-
                 var toggleClick = (attrs.toggleClick === true || attrs.toggleClick === 'true');
                 var attachedContainer;
 
-                // lets give a time for angular to initialize attached container id, then find this element
-                $timeout(function() {
-                    attachedContainer = document.getElementById(attrs.for);
+                setupDefaultDropdownStyles(element[0]);
+
+                // ---------------------------------------------------------------------
+                // Watchers
+                // ---------------------------------------------------------------------
+
+                attrs.$observe('for', function(newFor) {
+                    if (!newFor) return;
+
+                    attachedContainer = document.getElementById(newFor);
                     if (!attachedContainer)
                         throw new Error('Cant find a container to attach to.');
 
@@ -58,11 +59,7 @@
                     attachedContainer.addEventListener('keydown', onAttachedContainerKeyDown);
                     attachedContainer.addEventListener('click', onAttachedContainerClick);
                     document.addEventListener('mousedown', onDocumentMouseDown);
-                }, 100);
-
-                // ---------------------------------------------------------------------
-                // Watchers
-                // ---------------------------------------------------------------------
+                });
 
                 if (attrs.isOpened) {
                     scope.$watch(attrs.isOpened, function(opened) {
