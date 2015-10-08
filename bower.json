@@ -1,7 +1,7 @@
 {
   "name": "angular-open-dropdown",
   "description": "A directive that allows to open dropdown when user clicks on button or anything else",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "keywords": ["open-dropdown", "angular-open-dropdown", "open-dropdown-by-click"],
   "authors": [
     { "name": "Umed Khudoiberdiev", "email": "info@zar.tj" }

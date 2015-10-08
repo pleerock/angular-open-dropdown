@@ -33,7 +33,7 @@
     /**
      * @ngInject
      */
-    function openDropdown($parse) {
+    function openDropdown($parse, $timeout) {
         return {
             replace: true,
             restrict: 'E',
@@ -51,14 +51,16 @@
                 attrs.$observe('for', function(newFor) {
                     if (!newFor) return;
 
-                    attachedContainer = document.getElementById(newFor);
-                    if (!attachedContainer)
-                        throw new Error('Cant find a container to attach to.');
+                    $timeout(function() {
+                        attachedContainer = document.getElementById(newFor);
+                        if (!attachedContainer)
+                            throw new Error('Cant find a container to attach to.');
 
-                    // attach listeners
-                    attachedContainer.addEventListener('keydown', onAttachedContainerKeyDown);
-                    attachedContainer.addEventListener('click', onAttachedContainerClick);
-                    document.addEventListener('mousedown', onDocumentMouseDown);
+                        // attach listeners
+                        attachedContainer.addEventListener('keydown', onAttachedContainerKeyDown);
+                        attachedContainer.addEventListener('click', onAttachedContainerClick);
+                        document.addEventListener('mousedown', onDocumentMouseDown);
+                    }, 10);
                 });
 
                 if (attrs.isOpened) {
